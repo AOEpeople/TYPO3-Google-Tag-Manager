@@ -40,22 +40,24 @@ before_install:
 before_script:
   # Installs TYPO3
   - composer require --dev typo3/cms=$TYPO3_VERSION;
-  - export "TYPO3_PATH_WEB"=$PWD/.Build/Web;
   # Restore composer.json
   - git checkout composer.json;
+  - export TYPO3_PATH_WEB=$PWD/.Build/Web;
+  - export UNIT_XML=".Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml"
+  - export FUNCTIONAL_XML=".Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml"
 
 script:
   # Execute unit tests
   - >
     echo "Running unit tests";
     if [[ "$COVERAGE" == "1" ]]; then
-      .Build/bin/phpunit --coverage-clover=unittest-coverage.clover --colors -c Tests/phpunit.xml
+      .Build/bin/phpunit --whitelist Classes/ --coverage-clover=unittest-coverage.clover --colors -c $UNIT_XML Tests/Unit
 
       echo "Uploading code coverage results";
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
     else
-      .Build/bin/phpunit --colors -c Tests/phpunit.xml
+      .Build/bin/phpunit --colors -c $UNIT_XML Tests/Unit
     fi
 
   # Execute functional tests, if enabled
@@ -66,10 +68,10 @@ script:
       export typo3DatabaseName="typo3";
       export typo3DatabaseUsername="root";
       export typo3DatabasePassword="";
-      .Build/bin/phpunit -c .Build/Web/typo3/sysext/core/Build/FunctionalTests.xml Tests/Functional/
+      .Build/bin/phpunit --colors -c $FUNCTIONAL_XML Tests/Functional/
     fi
 
   - >
     echo;
     echo "Running php lint";
-    find . -name \*.php ! -path "./vendor/*" ! -path "./.Build/*" ! -path "./scripts/*" ! -path "./typo3_src/*" ! -path "./typo3temp/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+    find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
