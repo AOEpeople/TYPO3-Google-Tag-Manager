@@ -4,7 +4,7 @@ namespace Aoe\GoogleTagManager\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 AOE GmbH <dev@aoe.com>
+ *  (c) 2018 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *
@@ -25,11 +25,10 @@ namespace Aoe\GoogleTagManager\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Tests\BaseTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
-class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends BaseTestCase
+class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCase
 {
-
     /**
      * @var DataLayerViewHelper
      */
@@ -66,15 +65,15 @@ class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends BaseTestCa
         $sampleObject = new \stdClass();
         $sampleObject->foo = 1;
         $sampleObject->bar = 'baz';
-        return array(
-            array(true, $this->createJsCode('true')), // boolean
-            array(false, $this->createJsCode('false')), // boolean
-            array(1, $this->createJsCode(1)), // integer
-            array(0.995, $this->createJsCode(0.995)), // float
-            array('foo', $this->createJsCode('\'foo\'')), // string
-            array(array('foo', 'bar'), $this->createJsCode('["foo","bar"]')), // array
-            array($sampleObject, $this->createJsCode('{"foo":1,"bar":"baz"}')) // object
-        );
+        return [
+            [true, $this->createJsCode('true')], // boolean
+            [false, $this->createJsCode('false')], // boolean
+            [1, $this->createJsCode(1)], // integer
+            [0.995, $this->createJsCode(0.995)], // float
+            ['foo', $this->createJsCode('\'foo\'')], // string
+            [['foo', 'bar'], $this->createJsCode('["foo","bar"]')], // array
+            [$sampleObject, $this->createJsCode('{"foo":1,"bar":"baz"}')] // object
+        ];
     }
 
     /**

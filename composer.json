@@ -19,10 +19,7 @@
     "config": {
         "secure-http": false,
         "vendor-dir": ".Build/vendor",
-        "bin-dir": ".Build/bin",
-        "preferred-install": {
-            "typo3/cms": "source"
-        }
+        "bin-dir": ".Build/bin"
     },
     "require": {
         "php": ">=5.5.0",
@@ -32,7 +29,7 @@
     },
     "require-dev": {
         "typo3/cms": "^7.6",
-        "phpunit/phpunit": "4.8.*",
+        "nimut/testing-framework": "^2.0",
         "phpunit/phpcov": "2.0.*",
         "squizlabs/php_codesniffer": "2.3.*",
         "sebastian/phpcpd": "2.0.*",
@@ -43,13 +40,8 @@
             "Aoe\\GoogleTagManager\\": "Classes/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "TYPO3\\CMS\\Core\\Tests\\": ".Build/Web/typo3/sysext/core/Tests/"
-        }
-    },
     "replace": {
-        "google_tag_manager": "*"
+        "google_tag_manager": "self.version"
     },
     "scripts": {
         "post-autoload-dump": [

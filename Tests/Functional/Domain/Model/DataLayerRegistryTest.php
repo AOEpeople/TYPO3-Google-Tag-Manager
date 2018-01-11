@@ -27,7 +27,7 @@ namespace Aoe\GoogleTagManager\Model;
 
 use Aoe\GoogleTagManager\Service\VariableProviderInterface;
 use Aoe\GoogleTagManager\ViewHelpers\DataLayerViewHelper;
-use TYPO3\CMS\Core\Tests\FunctionalTestCase;
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class DataLayerRegistryTest extends FunctionalTestCase implements VariableProviderInterface
