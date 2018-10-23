@@ -29,6 +29,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class DataLayerViewHelper extends AbstractViewHelper
 {
+    
+    /**
+     * @var boolean
+     */
+    protected $escapeOutput = false;
+    
     /**
      * @param string $name
      * @param string $value
