@@ -28,4 +28,8 @@ if (!defined('TYPO3_MODE')) {
 }
 
 // Register static TypoScript templates
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('google_tag_manager', 'Configuration/TypoScript', 'Google Tag Manager');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+    'google_tag_manager',
+    'Configuration/TypoScript',
+    'Google Tag Manager'
+);

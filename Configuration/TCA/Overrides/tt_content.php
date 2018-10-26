@@ -45,6 +45,8 @@ call_user_func(function () {
         $pluginSignature,
         'FILE:EXT:google_tag_manager/Configuration/FlexForms/datalayer.xml'
     );
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,recursive,select_key,pages';
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+    $excludelist = 'layout,recursive,select_key,pages';
+    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = $excludelist;
+    $addlist = 'pi_flexform';
+    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = $addlist;
 });

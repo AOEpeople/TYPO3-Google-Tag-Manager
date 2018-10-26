@@ -115,7 +115,8 @@ class DataLayerRegistryTest extends FunctionalTestCase implements VariableProvid
      */
     public function shouldThrowExceptionIfHookClassDoesNotImplementInterface()
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders']['test'] = DataLayerViewHelper::class;
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders']['test'] =
+            DataLayerViewHelper::class;
         $this->dataLayerRegistry->getVars();
     }
 

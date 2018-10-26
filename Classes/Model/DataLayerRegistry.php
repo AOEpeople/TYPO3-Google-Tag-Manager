@@ -97,16 +97,20 @@ class DataLayerRegistry implements SingletonInterface
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders'] as $class) {
                 if (!class_exists($class)) {
+                    $message = 'Registered hook class "' . $class . '" ';
+                    $message.= 'for Google Tag Manager variable provider does not exist.';
                     throw new \RuntimeException(
-                        'Registered hook class "' . $class . '" for Google Tag Manager variable provider does not exist.',
+                        $message,
                         1459503274
                     );
                 }
                 /** @var VariableProviderInterface $variableProvider */
                 $variableProvider = $this->objectManager->get($class);
                 if (!$variableProvider instanceof VariableProviderInterface) {
+                    $message = 'Hook "' . $class . '" for Google Tag Manager ';
+                    $message.= 'variable provider does not implement VariableProviderInterface.',
                     throw new \RuntimeException(
-                        'Hook "' . $class . '" for Google Tag Manager variable provider does not implement VariableProviderInterface.',
+                        $message,
                         1459503275
                     );
                 }
