@@ -108,7 +108,7 @@ class DataLayerRegistry implements SingletonInterface
                 $variableProvider = $this->objectManager->get($class);
                 if (!$variableProvider instanceof VariableProviderInterface) {
                     $message = 'Hook "' . $class . '" for Google Tag Manager ';
-                    $message.= 'variable provider does not implement VariableProviderInterface.',
+                    $message.= 'variable provider does not implement VariableProviderInterface.';
                     throw new \RuntimeException(
                         $message,
                         1459503275
