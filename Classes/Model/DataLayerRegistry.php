@@ -83,7 +83,8 @@ class DataLayerRegistry implements SingletonInterface
         $dataLayerViewHelper = new DataLayerViewHelper();
         $js = '';
         foreach ($this->vars as $name => $value) {
-            $js .= $dataLayerViewHelper->render($name, $value);
+            $dataLayerViewHelper->setArguments(['name' => $name, 'value' => $value]);
+            $js .= $dataLayerViewHelper->render();
         }
         return $js;
     }

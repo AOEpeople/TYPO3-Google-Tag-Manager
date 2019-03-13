@@ -28,6 +28,7 @@
     },
     "require-dev": {
         "nimut/testing-framework": "^2.0 || ^4.0",
+        "helhum/typo3-console": "*",
         "phpunit/phpcov": "^3.1 || ^4.0",
         "squizlabs/php_codesniffer": "*",
         "sebastian/phpcpd": "*",
@@ -44,7 +45,8 @@
     "scripts": {
         "post-autoload-dump": [
             "mkdir -p .Build/Web/typo3conf/ext/",
-            "[ -L .Build/Web/typo3conf/ext/google_tag_manager ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/google_tag_manager"
+            "[ -L .Build/Web/typo3conf/ext/google_tag_manager ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/google_tag_manager",
+            "[ -e .Build/bin/typo3cms ] &&  .Build/bin/typo3cms install:generatepackagestates || echo 'TYPO3 Console is not installed'"
         ],
         "test:unit": [
             "[ -e '.Build/bin/phpunit' ] || composer update",

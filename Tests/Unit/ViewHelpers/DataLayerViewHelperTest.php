@@ -84,7 +84,8 @@ class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCa
      */
     public function render($value, $expected)
     {
-        $this->assertEquals($expected, $this->viewHelper->render($this->varName, $value));
+        $this->viewHelper->setArguments(['name' => 'varName', 'value' => $value]);
+        $this->assertEquals($expected, $this->viewHelper->render());
     }
 
     /**
@@ -92,7 +93,8 @@ class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCa
      */
     public function renderWithNullValue()
     {
-        $this->assertEquals('', $this->viewHelper->render('foo', null));
+        $this->viewHelper->setArguments(['name' => 'foo', 'value' => null]);
+        $this->assertEquals('', $this->viewHelper->render());
     }
 
     /**

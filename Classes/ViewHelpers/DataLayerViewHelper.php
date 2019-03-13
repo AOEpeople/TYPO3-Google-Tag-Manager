@@ -36,12 +36,23 @@ class DataLayerViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
     
     /**
-     * @param string $name
-     * @param string $value
+     * Initialize arguments
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('name', 'string', 'name', true);
+        $this->registerArgument('value', 'string', 'value', true);
+    }
+
+    /**
      * @return string
      */
-    public function render($name, $value)
+    public function render()
     {
+        $name = $this->arguments['name'];
+        $value = $this->arguments['value'];
+
         if ($value === null) {
             return '';
         }
