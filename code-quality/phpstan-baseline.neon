@@ -1,0 +1,5 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^(.*)has no return typehint specified\\.$#"
+			path: ../

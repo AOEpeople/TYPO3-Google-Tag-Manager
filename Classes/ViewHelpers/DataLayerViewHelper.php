@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\GoogleTagManager\ViewHelpers;
 
 /***************************************************************
@@ -25,16 +28,15 @@ namespace Aoe\GoogleTagManager\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class DataLayerViewHelper extends AbstractViewHelper
 {
-    
     /**
      * @var boolean
      */
     protected $escapeOutput = false;
-    
+
     /**
      * Initialize arguments
      */
@@ -57,18 +59,18 @@ class DataLayerViewHelper extends AbstractViewHelper
             return '';
         }
         if (is_array($value) || is_object($value)) {
-            return 'dataLayer.push({\'' . $name . '\': ' . json_encode($value) . '});' . PHP_EOL;
+            return "dataLayer.push({'" . $name . "': " . json_encode($value) . '});' . PHP_EOL;
         }
         if (is_string($value)) {
-            return 'dataLayer.push({\'' . $name . '\': \'' . $value . '\'});' . PHP_EOL;
+            return "dataLayer.push({'" . $name . "': '" . $value . "'});" . PHP_EOL;
         }
         if (is_bool($value)) {
             $val = 'false';
             if ($value) {
                 $val = 'true';
             }
-            return 'dataLayer.push({\'' . $name . '\': ' . $val . '});' . PHP_EOL;
+            return "dataLayer.push({'" . $name . "': " . $val . '});' . PHP_EOL;
         }
-        return 'dataLayer.push({\'' . $name . '\': ' . $value . '});' . PHP_EOL;
+        return "dataLayer.push({'" . $name . "': " . $value . '});' . PHP_EOL;
     }
 }

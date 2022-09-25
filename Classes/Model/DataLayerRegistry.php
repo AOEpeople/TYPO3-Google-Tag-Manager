@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\GoogleTagManager\Model;
 
 /***************************************************************
@@ -28,27 +31,17 @@ namespace Aoe\GoogleTagManager\Model;
 use Aoe\GoogleTagManager\Service\VariableProviderInterface;
 use Aoe\GoogleTagManager\ViewHelpers\DataLayerViewHelper;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * @see \Aoe\GoogleTagManager\Model\DataLayerRegistryTest
+ */
 class DataLayerRegistry implements SingletonInterface
 {
     /**
      * @var array
      */
-    private $vars = array();
-
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
-     */
-    public function __construct(ObjectManagerInterface $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
+    private $vars = [];
 
     /**
      * @param string $name
@@ -72,7 +65,7 @@ class DataLayerRegistry implements SingletonInterface
      */
     public function clear()
     {
-        $this->vars = array();
+        $this->vars = [];
     }
 
     /**
@@ -94,22 +87,22 @@ class DataLayerRegistry implements SingletonInterface
      */
     private function getVarsFromHooks()
     {
-        $vars = array();
+        $vars = [];
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders'] as $class) {
                 if (!class_exists($class)) {
                     $message = 'Registered hook class "' . $class . '" ';
-                    $message.= 'for Google Tag Manager variable provider does not exist.';
+                    $message .= 'for Google Tag Manager variable provider does not exist.';
                     throw new \RuntimeException(
                         $message,
                         1459503274
                     );
                 }
                 /** @var VariableProviderInterface $variableProvider */
-                $variableProvider = $this->objectManager->get($class);
+                $variableProvider = GeneralUtility::makeInstance($class);
                 if (!$variableProvider instanceof VariableProviderInterface) {
                     $message = 'Hook "' . $class . '" for Google Tag Manager ';
-                    $message.= 'variable provider does not implement VariableProviderInterface.';
+                    $message .= 'variable provider does not implement VariableProviderInterface.';
                     throw new \RuntimeException(
                         $message,
                         1459503275

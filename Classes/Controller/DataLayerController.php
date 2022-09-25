@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\GoogleTagManager\Controller;
 
 /***************************************************************
@@ -34,7 +37,7 @@ class DataLayerController extends ActionController
      */
     public function indexAction()
     {
-        $vars = array();
+        $vars = [];
         if (isset($this->settings['datalayervars']) && is_array($this->settings['datalayervars'])) {
             $vars = $this->settings['datalayervars'];
         }

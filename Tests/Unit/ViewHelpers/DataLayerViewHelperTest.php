@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\GoogleTagManager\ViewHelpers;
 
 /***************************************************************
@@ -30,31 +33,33 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCase
 {
     /**
-     * @var DataLayerViewHelper
-     */
-    private $viewHelper;
-
-    /**
      * @var string
      */
-    private $varName = 'varName';
+    private const VAR_NAME = 'varName';
+
+    /**
+     * @var DataLayerViewHelper
+     */
+    private $dataLayerViewHelper;
 
     /**
      * (non-PHPdoc)
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->viewHelper = new DataLayerViewHelper();
+        $this->dataLayerViewHelper = new DataLayerViewHelper();
     }
 
     /**
      * (non-PHPdoc)
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $this->viewHelper = null;
+        unset($this->dataLayerViewHelper);
     }
 
     /**
@@ -70,31 +75,27 @@ class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCa
             [false, $this->createJsCode('false')], // boolean
             [1, $this->createJsCode(1)], // integer
             [0.995, $this->createJsCode(0.995)], // float
-            ['foo', $this->createJsCode('\'foo\'')], // string
+            ['foo', $this->createJsCode("'foo'")], // string
             [['foo', 'bar'], $this->createJsCode('["foo","bar"]')], // array
-            [$sampleObject, $this->createJsCode('{"foo":1,"bar":"baz"}')] // object
+            [$sampleObject, $this->createJsCode('{"foo":1,"bar":"baz"}')], // object
         ];
     }
 
     /**
-     * @test
      * @dataProvider allDataProvider
      * @param mixed $value
      * @param mixed $expected
      */
-    public function render($value, $expected)
+    public function testRender($value, $expected)
     {
-        $this->viewHelper->setArguments(['name' => 'varName', 'value' => $value]);
-        $this->assertEquals($expected, $this->viewHelper->render());
+        $this->dataLayerViewHelper->setArguments(['name' => 'varName', 'value' => $value]);
+        $this->assertSame($expected, $this->dataLayerViewHelper->render());
     }
 
-    /**
-     * @test
-     */
-    public function renderWithNullValue()
+    public function TestrenderWithNullValue()
     {
-        $this->viewHelper->setArguments(['name' => 'foo', 'value' => null]);
-        $this->assertEquals('', $this->viewHelper->render());
+        $this->dataLayerViewHelper->setArguments(['name' => 'foo', 'value' => null]);
+        $this->assertSame('', $this->dataLayerViewHelper->render());
     }
 
     /**
@@ -103,6 +104,6 @@ class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCa
      */
     private function createJsCode($value)
     {
-        return 'dataLayer.push({\'' . $this->varName . '\': ' . $value . '});' . PHP_EOL;
+        return "dataLayer.push({'" . self::VAR_NAME . "': " . $value . '});' . PHP_EOL;
     }
 }

@@ -16,37 +16,46 @@
             "homepage": "http://www.aoe.com"
         }
     ],
+    "prefer-stable": true,
     "config": {
         "vendor-dir": ".Build/vendor",
-        "bin-dir": ".Build/bin"
+        "bin-dir": ".Build/bin",
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true,
+            "cweagans/composer-patches": true
+        }
     },
     "require": {
-        "php": ">=5.5",
-        "typo3/cms-core": "^7.6 || ^8.7 || ^9.5",
-        "typo3/cms-extbase": "^7.6 || ^8.7 || ^9.5",
-        "typo3/cms-fluid": "^7.6 || ^8.7 || ^9.5"
+        "php": "^7.4",
+        "congstar/patched-typo3-cms-core": "^11.5",
+        "cweagans/composer-patches": "~1.0",
+        "typo3/cms-core": "^11.5",
+        "typo3/cms-fluid": "^11.0",
+        "typo3/cms-extbase": "^11.5",
+        "ext-json": "*"
     },
     "require-dev": {
-        "nimut/testing-framework": "^2.0 || ^4.0",
-        "helhum/typo3-console": "*",
-        "phpunit/phpcov": "^3.1 || ^4.0",
-        "squizlabs/php_codesniffer": "*",
-        "sebastian/phpcpd": "*",
-        "phpmd/phpmd": "*"
+        "aoe/congstar-codestyle": "1.0.0.10",
+        "nimut/testing-framework": "^6.0",
+        "phpspec/prophecy-phpunit": "^2.0"
     },
     "autoload": {
         "psr-4": {
             "Aoe\\GoogleTagManager\\": "Classes/"
         }
     },
-    "replace": {
-        "google_tag_manager": "self.version"
+    "autoload-dev": {
+        "psr-4": {
+            "Aoe\\GoogleTagManager\\Tests\\": "Tests/"
+        }
     },
     "scripts": {
         "post-autoload-dump": [
             "mkdir -p .Build/Web/typo3conf/ext/",
             "[ -L .Build/Web/typo3conf/ext/google_tag_manager ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/google_tag_manager",
-            "[ -e .Build/bin/typo3cms ] &&  .Build/bin/typo3cms install:generatepackagestates || echo 'TYPO3 Console is not installed'"
+            "[ -e .Build/bin/typo3cms ] &&  .Build/bin/typo3cms install:generatepackagestates || echo 'TYPO3 Console is not installed'",
+            "export TYPO3_PATH_WEB=$PWD/.Build/Web"
         ],
         "test:unit": [
             "[ -e '.Build/bin/phpunit' ] || composer update",
@@ -55,6 +64,33 @@
         "test:functional": [
             "[ -e '.Build/bin/phpunit' ] || composer update",
             "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional"
+        ],
+        "code-style": [
+            "[ -e ./.Build/bin/rector ] || composer install",
+            "./.Build/bin/ecs check --config code-quality/ecs.php",
+            "./.Build/bin/rector process --dry-run --config code-quality/rector.php"
+        ],
+        "code-style-upgrade": [
+            "[ -e ./.Build/bin/rector ] || composer install",
+            "./.Build/bin/rector process --dry-run --config code-quality/rector-8_0.php"
+        ],
+        "code-analysis": [
+            "./.Build/bin/phpstan analyse -c code-quality/phpstan.neon --memory-limit=1G"
+        ],
+        "code-analysis--baseline": [
+            "./.Build/bin/phpstan analyse -c code-quality/phpstan.neon --memory-limit=1G --generate-baseline"
+        ],
+        "code-compatibility": [
+            "[ -e ./.Build/vendor/symplify/easy-coding-standard/vendor/squizlabs/php_codesniffer/bin/phpcs ] || composer install",
+            "[ -d ./reports/php_checkstyle ] || mkdir -p reports/php_checkstyle/",
+            "./.Build/vendor/aoe/congstar-codestyle/configure-checkstyle-build.sh",
+            "./.Build/vendor/symplify/easy-coding-standard/vendor/squizlabs/php_codesniffer/bin/phpcs -d memory_limit=1G --standard=PHPCompatibility --colors --ignore=*/.Build/*,*/vendor/*,*/node_modules/*,*.css,*.js,*.blade.php,*/tests/* -p . --runtime-set testVersion 7.4 --report=summary",
+            "./.Build/vendor/symplify/easy-coding-standard/vendor/squizlabs/php_codesniffer/bin/phpcs -d memory_limit=1G --standard=PHPCompatibility --colors --ignore=*/.Build/*,*/vendor/*,*/node_modules/*,*.css,*.js,*.blade.php,*/tests/* -p . --runtime-set testVersion 8.0 --report=summary"
+        ],
+        "code-check-pipeline": [
+            "@composer code-style",
+            "@composer code-analysis",
+            "@composer code-compatibility"
         ]
     },
     "extra": {
@@ -63,6 +99,20 @@
             "web-dir": ".Build/Web"
         }
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://extranet.aoe.com/artifactory/api/composer/congstar-composer-internal-local"
+        },
+        {
+            "type": "composer",
+            "url": "https://extranet.aoe.com/artifactory/api/composer/composer-github",
+            "canonical": false
+        },
+        {
+            "packagist.org": false
+        }
+    ],
     "keywords": [
         "TYPO3",
         "extbase",

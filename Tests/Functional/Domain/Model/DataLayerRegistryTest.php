@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Aoe\GoogleTagManager\Model;
 
 /***************************************************************
@@ -28,7 +31,7 @@ namespace Aoe\GoogleTagManager\Model;
 use Aoe\GoogleTagManager\Service\VariableProviderInterface;
 use Aoe\GoogleTagManager\ViewHelpers\DataLayerViewHelper;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DataLayerRegistryTest extends FunctionalTestCase implements VariableProviderInterface
 {
@@ -44,63 +47,54 @@ class DataLayerRegistryTest extends FunctionalTestCase implements VariableProvid
 
     /**
      * (non-PHPdoc)
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
-    public function setUp()
+
+    protected function setUp(): void
     {
         parent::setup();
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders']['test'] = self::class;
-        $this->dataLayerRegistry = new DataLayerRegistry(new ObjectManager());
+        $this->dataLayerRegistry = GeneralUtility::makeInstance(DataLayerRegistry::class);
     }
 
     /**
      * (non-PHPdoc)
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['google_tag_manager']['variableProviders']['test']);
-        $this->dataLayerRegistry = null;
+        unset($this->dataLayerRegistry);
     }
 
-    /**
-     * @test
-     */
-    public function shouldAddVar()
+    public function testShouldAddVar()
     {
         $this->dataLayerRegistry->addVar('test', 'abc');
         $vars = $this->dataLayerRegistry->getVars();
         $this->assertArrayHasKey('test', $vars);
-        $this->assertEquals('abc', $vars['test']);
+        $this->assertSame('abc', $vars['test']);
     }
 
-    /**
-     * @test
-     */
-    public function getJSVariables()
+    public function testGetJSVariables()
     {
         $this->dataLayerRegistry->addVar('test', 'abc');
         $js = $this->dataLayerRegistry->getJSVariables();
-        $this->assertContains('dataLayer', $js);
-        $this->assertContains('test', $js);
-        $this->assertContains('abc', $js);
+        $this->assertStringContainsString('dataLayer', $js);
+        $this->assertStringContainsString('test', $js);
+        $this->assertStringContainsString('abc', $js);
     }
 
-    /**
-     * @test
-     */
-    public function shouldAddVarsFromHooks()
+    public function testShouldAddVarsFromHooks()
     {
         $vars = $this->dataLayerRegistry->getVars();
         $this->assertArrayHasKey('foo', $vars);
-        $this->assertEquals('bar', $vars['foo']);
+        $this->assertSame('bar', $vars['foo']);
     }
 
-    /**
-     * @test
-     */
-    public function shouldThrowExceptionIfHookClassNotExists()
+    public function testShouldThrowExceptionIfHookClassNotExists()
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionCode(1459503274);
@@ -109,10 +103,7 @@ class DataLayerRegistryTest extends FunctionalTestCase implements VariableProvid
         $this->dataLayerRegistry->getVars();
     }
 
-    /**
-     * @test
-     */
-    public function shouldThrowExceptionIfHookClassDoesNotImplementInterface()
+    public function TestShouldThrowExceptionIfHookClassDoesNotImplementInterface()
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionCode(1459503275);
