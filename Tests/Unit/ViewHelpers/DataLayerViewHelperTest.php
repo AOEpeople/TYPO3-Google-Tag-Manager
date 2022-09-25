@@ -30,7 +30,7 @@ namespace Aoe\GoogleTagManager\ViewHelpers;
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 
-class Tx_GoogleTagManager_ViewHelpers_DataLayerViewHelperTest extends UnitTestCase
+class DataLayerViewHelperTest extends UnitTestCase
 {
     /**
      * @var string

@@ -30,6 +30,9 @@ namespace Aoe\GoogleTagManager\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * @see \Aoe\GoogleTagManager\ViewHelpers\DataLayerViewHelperTest
+ */
 class DataLayerViewHelper extends AbstractViewHelper
 {
     /**
