@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2015-23-06T16:46:59Z"
+          product-name="examples">
+        <header/>
+        <body>
+            <trans-unit id="file" xml:space="preserve">
+                <source>Files &amp; directories</source>
+                <target>Files &amp; directories</target>
+             </trans-unit>
+            <trans-unit id="file.templateRootPath" xml:space="preserve">
+                <source>Path to template root (FE):You can alter this in case you want to customize the tracking code output</source>
+                <target>Path to template root (FE):You can alter this in case you want to customize the tracking code output</target>
+             </trans-unit>
+            <trans-unit id="file.partialRootPath" xml:space="preserve">
+                <source>Path to template partials (FE):You can alter this, though the standard plugin doesn't use partials ...</source>
+                <target>Path to template partials (FE):You can alter this, though the standard plugin doesn't use partials ...</target>
+            </trans-unit>
+            <trans-unit id="file.layoutRootPath" xml:space="preserve">
+                <source>Path to template layouts (FE):You can alter this, though the standard plugin doesn't use layouts ...</source>
+                <target>Path to template layouts (FE):You can alter this, though the standard plugin doesn't use layouts ...</target>
+            </trans-unit>
+            <trans-unit id="common.tagId" xml:space="preserve">
+                <source>Tag Manager ID</source>
+                <target>Tag Manager ID</target>
+            </trans-unit>
+            <trans-unit id="common.enable" xml:space="preserve">
+                <source>Enable the Tag Manager</source>
+                <target>Enable the Tag Manager</target>
+            </trans-unit>
+            <trans-unit id="common.dataLayerVersion" xml:space="preserve">
+                <source>Version of the Datalayer of your application</source>
+                <target>Version of the Datalayer of your application</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
