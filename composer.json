@@ -99,20 +99,6 @@
             "web-dir": ".Build/Web"
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://extranet.aoe.com/artifactory/api/composer/congstar-composer-internal-local"
-        },
-        {
-            "type": "composer",
-            "url": "https://extranet.aoe.com/artifactory/api/composer/composer-github",
-            "canonical": false
-        },
-        {
-            "packagist.org": false
-        }
-    ],
     "keywords": [
         "TYPO3",
         "extbase",
