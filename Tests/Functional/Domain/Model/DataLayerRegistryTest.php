@@ -103,7 +103,7 @@ class DataLayerRegistryTest extends FunctionalTestCase implements VariableProvid
         $this->dataLayerRegistry->getVars();
     }
 
-    public function TestShouldThrowExceptionIfHookClassDoesNotImplementInterface()
+    public function testShouldThrowExceptionIfHookClassDoesNotImplementInterface()
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionCode(1459503275);
