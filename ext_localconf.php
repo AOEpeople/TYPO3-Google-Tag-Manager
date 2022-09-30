@@ -1,14 +1,17 @@
 <?php
+use Aoe\GoogleTagManager\Controller\DataLayerController;
+use Aoe\GoogleTagManager\Controller\TrackingController;
+
 defined('TYPO3') or die();
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Aoe.google_tag_manager',
     'Tracking',
     [
-        'Tracking' => 'index,values'
+        TrackingController::class => 'index,values'
     ],
     [
-        'Tracking' => ''
+        TrackingController::class => ''
     ]
 );
 
@@ -16,6 +19,6 @@ defined('TYPO3') or die();
     'Aoe.google_tag_manager',
     'DataLayer',
     [
-        'DataLayer' => 'index'
+        DataLayerController::class => 'index'
     ]
 );
