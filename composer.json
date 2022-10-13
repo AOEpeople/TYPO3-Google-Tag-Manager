@@ -97,7 +97,7 @@
         ],
         "extension-release": [
             "rm -rf .Build",
-            "rm -rf .code-quality",
+            "rm -rf code-quality",
             "rm -rf Tests/",
             "rm .gitignore",
             "rm .scrutinizer.yml"
