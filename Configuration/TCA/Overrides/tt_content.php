@@ -32,7 +32,7 @@ call_user_func(function () {
      * Register plugin
      */
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Aoe.google_tag_manager',
+        'google_tag_manager',
         'DataLayer',
         'Google Tag Manager DataLayer'
     );
